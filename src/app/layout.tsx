@@ -1,6 +1,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
+import { ModalProvider } from '@/providers/modal-provider';
 import { ClerkProvider } from '@clerk/nextjs';
 
 const geistSans = localFont({
@@ -35,7 +36,7 @@ export default function RootLayout({
              'antialiased`
           }
         >
-          <div className='h-full p-10 space-y-8 bg-slate-100'>
+          <div className='h-full p-10 space-y-2 bg-slate-100'>
             {/* <SignedOut>
               <SignInButton />
             </SignedOut>
@@ -44,6 +45,7 @@ export default function RootLayout({
             </SignedIn> */}
             {children}
           </div>
+          <ModalProvider />
         </body>
       </html>
     </ClerkProvider>
