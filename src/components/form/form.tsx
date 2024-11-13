@@ -1,0 +1,47 @@
+import { UseFormReturn } from 'react-hook-form';
+import * as z from 'zod';
+import { Form as ShadcnUIForm } from '@/components/ui/form';
+import {
+  WithChildren,
+  WithClassName,
+} from '@/lib/types';
+import { cn } from '@/lib/utils';
+
+type FormProps = WithChildren & WithClassName & {
+  /* eslint-disable-next-line */
+  form: UseFormReturn<any>;
+  /* eslint-disable-next-line */
+  onSubmit: (values: z.infer<any>) => void
+  disabled?: boolean;
+  isLoading?: boolean;
+  isPending?: boolean;
+  messages?: {
+    success?: string;
+    error?: string;
+  },
+};
+
+export const Form = ({
+  children,
+  className,
+  form,
+  isLoading,
+  onSubmit,
+  messages,
+  ...props
+}: FormProps) => (
+  <ShadcnUIForm {...form} {...props}>
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className={cn(
+        isLoading ? 'opacity-50' : undefined,
+        'w-full space-y-4',
+        className
+      )}
+    >
+      {children}
+      {/* <FormMessage {...messages} /> */}
+      {messages && <p>{String(messages)}</p>}
+    </form>
+  </ShadcnUIForm>
+)
