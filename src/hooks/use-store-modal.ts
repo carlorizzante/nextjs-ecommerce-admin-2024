@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { ModalProps } from '@/components/modal';
+import { ModalProps } from '@/components/modals/modal';
 
 type UseStoreModalStore = Pick<ModalProps, 'isOpen' | 'onClose' | 'onOpen'>;
 

@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { ModalProvider } from '@/providers/modal-provider';
+import { ToastProvider } from '@/providers/toast-provider';
 import { ClerkProvider } from '@clerk/nextjs';
 
 const geistSans = localFont({
@@ -46,6 +47,7 @@ export default function RootLayout({
             {children}
           </div>
           <ModalProvider />
+          <ToastProvider />
         </body>
       </html>
     </ClerkProvider>

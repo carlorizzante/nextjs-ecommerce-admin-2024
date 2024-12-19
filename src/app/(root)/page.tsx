@@ -9,7 +9,9 @@ import {
 } from '@clerk/nextjs';
 
 export default function SetupPage() {
-  const { isOpen, onOpen } = useStoreModal();
+  // const { isOpen, onOpen } = useStoreModal();
+  const isOpen = useStoreModal((state) => state.isOpen);
+  const onOpen = useStoreModal((state) => state.onOpen);
 
   useEffect(() => {
     if (!isOpen) onOpen();
@@ -23,12 +25,6 @@ export default function SetupPage() {
         <SignInButton />
       </div>
       <Button onClick={onOpen}>Open Modal</Button>
-      {/* <Modal
-        isOpen={true}
-        title="Test Modal"
-        descripton="This is a test modal"
-        onClose={() => null}
-      /> */}
     </>
   );
 }

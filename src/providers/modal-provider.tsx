@@ -5,9 +5,8 @@ import {
   useState,
 } from 'react';
 import { StoreModal } from '@/components/modals';
-import { WithChildren } from '@/lib/types';
 
-export const ModalProvider = ({ children }: WithChildren) => {
+export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,12 +15,13 @@ export const ModalProvider = ({ children }: WithChildren) => {
 
   if (!isMounted) {
     return null;
+
+  } else {
+    return (
+      <>
+        <StoreModal />
+      </>
+    );
   }
 
-  return (
-    <>
-      <StoreModal />
-      {children}
-    </>
-  );
 }

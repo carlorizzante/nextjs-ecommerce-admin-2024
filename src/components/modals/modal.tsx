@@ -1,11 +1,9 @@
 "use client";
 
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -39,10 +37,10 @@ export const Modal: React.FC<ModalProps> = ({
         <div>
           {children}
         </div>
+        {/* <DialogFooter>
+          <Button onClick={() => handleOpenChange(false)}>Close</Button>
+        </DialogFooter> */}
       </DialogContent>
-      <DialogFooter>
-        <Button onClick={() => handleOpenChange(false)}>Close</Button>
-      </DialogFooter>
     </Dialog>
   );
 }

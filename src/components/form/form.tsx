@@ -1,4 +1,8 @@
-import { UseFormReturn } from 'react-hook-form';
+import {
+  FieldPath,
+  FieldValues,
+  UseFormReturn,
+} from 'react-hook-form';
 import * as z from 'zod';
 import { Form as ShadcnUIForm } from '@/components/ui/form';
 import {
@@ -7,9 +11,12 @@ import {
 } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
-type FormProps = WithChildren & WithClassName & {
+type FormProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> = WithChildren & WithClassName & {
   /* eslint-disable-next-line */
-  form: UseFormReturn<any>;
+  form: UseFormReturn<{ name: TName; }, any, undefined>;
   /* eslint-disable-next-line */
   onSubmit: (values: z.infer<any>) => void
   disabled?: boolean;
