@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
@@ -22,6 +23,7 @@ const FormSchema = z.object({
 export const StoreModal = () => {
   const { isOpen, onClose, onOpen } = useStoreModal();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -31,17 +33,22 @@ export const StoreModal = () => {
   });
 
   const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
-    // TODO: Create store
-    console.log('handleSubmit', values);
+    // console.log('handleSubmit', values);
 
     try {
       setIsLoading(true);
       const response = await axios.post('/api/stores', values);
-      console.log('StoreModal > respose.data', response.data);
+      // console.log('StoreModal > respose.data', response.data);
+      toast.success('Store created!');
+      // window.location.assign(`/${response.data.id}`);
+      router.push(`/${response.data.id}`);
+      setTimeout(() => {
+        onClose();
+      }, 1000);
 
     } catch (error) {
       console.error('StoreModal', error);
-      toast.error('Failed to create store');
+      toast.error('Failed to create store.');
 
     } finally {
       setIsLoading(false);
@@ -49,8 +56,6 @@ export const StoreModal = () => {
   }
 
   const disabled = isLoading;
-
-  // console.log('isOpen', isOpen);
 
   return (
     <Modal

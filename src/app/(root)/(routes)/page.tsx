@@ -17,6 +17,10 @@ export default function SetupPage() {
     if (!isOpen) onOpen();
   }, [isOpen, onOpen]);
 
+  // Only use setup up for triggering the modal
+  return null;
+
+  // Potentially show some content here in the future
   return (
     <>
       <p>Admin Dashboard</p>
