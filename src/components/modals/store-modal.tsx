@@ -21,7 +21,7 @@ const FormSchema = z.object({
 });
 
 export const StoreModal = () => {
-  const { isOpen, onClose, onOpen } = useStoreModal();
+  const { isOpen, onOpen, onClose } = useStoreModal();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

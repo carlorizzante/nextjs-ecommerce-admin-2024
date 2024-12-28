@@ -37,7 +37,7 @@ export default function RootLayout({
              'antialiased`
           }
         >
-          <div className='h-full p-10 space-y-2 bg-slate-100'>
+          <div className='h-full bg-slate-100'>
             {/* <SignedOut>
               <SignInButton />
             </SignedOut>

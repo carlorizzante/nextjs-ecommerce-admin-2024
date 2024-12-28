@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { Navbar } from '@/components/navbar';
 import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs/server';
 
@@ -29,7 +30,7 @@ export default async function Layout({
 
   return (
     <div>
-      <div>This will be a Navbar</div>
+      <Navbar />
       <h1>Store: {store.name}</h1>
       <h2>Store ID: {store.id}</h2>
       <h2>User ID: {userId}</h2>
