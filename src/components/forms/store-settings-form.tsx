@@ -10,6 +10,7 @@ import {
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
+import { ApiAlert } from '@/components/api-alert';
 import {
   Form,
   FormCancel,
@@ -17,12 +18,13 @@ import {
   FormSubmit,
 } from '@/components/form';
 import { Heading } from '@/components/heading';
+import { AlertModal } from '@/components/modals/alert-modal';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { useOrigin } from '@/hooks';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Store } from '@prisma/client';
-import { AlertModal } from '../modals/alert-modal';
 
 const FormSchema = z.object({
   name: z.string().min(1),
@@ -43,6 +45,7 @@ export const StoreSettingsForm = ({ className, store }: StoreSettingsFormProps) 
 
   const params = useParams();
   const router = useRouter();
+  const origin = useOrigin();
 
   const form = useForm<FormSchemaValues>({
     resolver: zodResolver(FormSchema),
@@ -138,6 +141,8 @@ export const StoreSettingsForm = ({ className, store }: StoreSettingsFormProps) 
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>
       </Form>
+      <Separator className="my-4" />
+      <ApiAlert title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.storeId}`} variant="public" />
     </>
   );
 }

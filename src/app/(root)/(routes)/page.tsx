@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { useStoreModal } from '@/hooks/use-store-modal';
+import { useStoreModal } from '@/hooks';
 import {
   SignInButton,
   UserButton,

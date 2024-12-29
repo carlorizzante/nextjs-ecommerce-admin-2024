@@ -12,7 +12,7 @@ import {
   FormInput,
   FormSubmit,
 } from '@/components/form';
-import { useStoreModal } from '@/hooks/use-store-modal';
+import { useStoreModal } from '@/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from './modal';
 

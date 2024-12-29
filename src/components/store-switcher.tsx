@@ -26,7 +26,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useStoreModal } from '@/hooks/use-store-modal';
+import { useStoreModal } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { Store } from '@prisma/client';
 import { PopoverTriggerProps } from '@radix-ui/react-popover';
