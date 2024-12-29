@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from 'next/link';
 import {
@@ -17,7 +17,7 @@ export const MainNavigation = ({
   const routes = [
     {
       href: `/${params.storeId}`,
-      label: 'Store',
+      label: 'Dashboard',
       active: pathname === `/${params.storeId}`,
     },
     {

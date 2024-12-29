@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import axios from 'axios';
@@ -22,6 +22,7 @@ import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Store } from '@prisma/client';
+import { AlertModal } from '../modals/alert-modal';
 
 const FormSchema = z.object({
   name: z.string().min(1),
@@ -69,15 +70,39 @@ export const StoreSettingsForm = ({ className, store }: StoreSettingsFormProps) 
     }
   }
 
+  const handleDelete = async () => {
+    // console.log('StoreSettingsForm > handleDelete');
+    try {
+      setIsLoading(true);
+      // throw new Error('Not implemented');
+      const response = await axios.delete(`/api/stores/${params.storeId}`);
+      if (response.status === 200) {
+        router.refresh();
+        router.push('/');
+        toast.success('Store deleted!');
+      } else {
+        toast.error('Failed to delete store. Make sure to remove all products from store before deleting it.');
+      }
+    }
+    catch (error) {
+      console.error('StoreSettingsForm', error);
+      toast.error('Failed to delete store. Make sure to remove all products from store before deleting it.');
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
+
   const disabled = isLoading;
 
   return (
-    <Form
-      form={form}
-      onSubmit={handleSubmit}
-      isLoading={isLoading}
-      className={className}
-    >
+    <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={handleDelete}
+        loading={isLoading}
+      />
       <div className="flex w-full justify-between items-center">
         <Heading
           title="Store Settings"
@@ -92,20 +117,27 @@ export const StoreSettingsForm = ({ className, store }: StoreSettingsFormProps) 
           Delete Store
         </Button>
       </div>
-      <Separator />
-      <div className="grid grid-cols-3 gap-8">
-        <FormInput
-          form={form}
-          name="name"
-          label="Name of the Store"
-          disabled={disabled}
-          placeholder='Store Name...'
-        />
-      </div>
-      <div className="flex w-full justify-end items-center gap-2">
-        <FormSubmit disabled={disabled}>Save Changes</FormSubmit>
-        <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
-      </div>
-    </Form>
+      <Separator className="my-4" />
+      <Form
+        form={form}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
+        className={className}
+      >
+        <div className="grid grid-cols-3 gap-8">
+          <FormInput
+            form={form}
+            name="name"
+            label="Name of the Store"
+            disabled={disabled}
+            placeholder='Store Name...'
+          />
+        </div>
+        <div className="flex w-full justify-end items-center gap-2">
+          <FormSubmit disabled={disabled}>Save Changes</FormSubmit>
+          <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
+        </div>
+      </Form>
+    </>
   );
 }

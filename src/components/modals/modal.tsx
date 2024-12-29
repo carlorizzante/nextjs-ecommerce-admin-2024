@@ -13,7 +13,7 @@ export type ModalProps = WithChildren & {
   descripton: string;
   isOpen: boolean;
   onClose: () => void;
-  onOpen: () => void;
+  onOpen?: () => void;
   title: string;
 }
 
@@ -21,6 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   descripton,
   isOpen,
+  // onOpen = () => null,
   onClose,
   title,
 }) => {

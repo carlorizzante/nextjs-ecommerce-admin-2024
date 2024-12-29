@@ -14,7 +14,8 @@ export default function SetupPage() {
   const onOpen = useStoreModal((state) => state.onOpen);
 
   useEffect(() => {
-    if (!isOpen) onOpen();
+    // Rework onOpen in some meaningful way, or remove it
+    if (!isOpen && onOpen) onOpen();
   }, [isOpen, onOpen]);
 
   // Only use setup up for triggering the modal
