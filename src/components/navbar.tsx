@@ -20,7 +20,6 @@ export const Navbar = async () => {
 
   return (
     <div className="flex h-16 items-center gap-8 px-4 border-b">
-      <div>Logo</div>
       <StoreSwitcher items={stores} />
       <MainNavigation className="flex-1" />
       <div className="flex items-centerr ml-auto space-x-4">

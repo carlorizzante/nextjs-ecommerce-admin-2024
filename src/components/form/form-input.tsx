@@ -1,8 +1,4 @@
-import {
-  FieldPath,
-  FieldValues,
-  UseFormReturn,
-} from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import {
   FormControl,
   FormDescription,
@@ -14,15 +10,22 @@ import {
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
-type FormInputProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> = Omit<React.ComponentProps<"input">, 'form'> & {
+// type FormInputProps<
+//   TFieldValues extends FieldValues = FieldValues,
+//   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+// > = Omit<React.ComponentProps<"input">, 'form'> & {
+//   description?: string;
+//   /* eslint-disable-next-line */
+//   form: UseFormReturn<{ name: TName; }, any, undefined>;
+//   label?: string;
+//   name: TName;
+// }
+
+type FormInputProps = Omit<React.ComponentProps<"input">, 'form'> & {
   description?: string;
   /* eslint-disable-next-line */
-  form: UseFormReturn<{ name: TName; }, any, undefined>;
+  form: UseFormReturn<{ name: string; }, any, undefined>;
   label?: string;
-  name: TName;
 }
 
 export const FormInput =
@@ -36,27 +39,24 @@ export const FormInput =
     disabled,
     form,
     label,
-    name,
-    type,
     ...props
   }: FormInputProps) => (
     <FormField
       control={form.control}
-      name={name as 'name'}
+      name={props.name as 'name'}
       render={({ field }) => (
         <FormItem>
-          {(label && type !== 'hidden') && <FormLabel>{label}</FormLabel>}
+          {(label && props.type !== 'hidden') && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input
               {...field}
-              name={name}
               disabled={disabled || form.formState.isSubmitting}
-              className={cn(className)}
+              className={cn('bg-white', className)}
               {...props}
             />
           </FormControl>
-          {(description && type !== 'hidden') && <FormDescription>{description}</FormDescription>}
-          {type !== 'hidden' && <FormMessage {...field} />}
+          {(description && props.type !== 'hidden') && <FormDescription>{description}</FormDescription>}
+          {props.type !== 'hidden' && <FormMessage {...field} />}
         </FormItem>
       )}
     />

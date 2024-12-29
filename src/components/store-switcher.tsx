@@ -45,19 +45,10 @@ export const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => 
 
   const [open, setOpen] = useState(false);
 
-  const formattedItems = [
-    // {
-    //   label: 'Some Store',
-    //   value: 'some-store',
-    // },
-    // {
-    //   label: 'Some Other Store',
-    //   value: 'some-other-store',
-    // },
-    ...items.map((item) => ({
-      label: item.name,
-      value: item.id,
-    }))];
+  const formattedItems = items.map((item) => ({
+    label: item.name,
+    value: item.id,
+  }));
 
   const currentStore = formattedItems.find((item) => item.value === params.storeId);
 
@@ -66,8 +57,7 @@ export const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => 
     router.push(`/${store.value}`);
   }
 
-  return (<>
-    <div className={className}>Store Switcher!</div>
+  return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
@@ -120,6 +110,5 @@ export const StoreSwitcher = ({ className, items = [] }: StoreSwitcherProps) => 
         </Command>
       </PopoverContent>
     </Popover>
-  </>
   )
 }

@@ -27,8 +27,6 @@ export const MainNavigation = ({
     },
   ];
 
-  console.log('pathname', pathname);
-
   return (
     <nav className={className}>
       <ul className="flex gap-4 lg:gap-6">

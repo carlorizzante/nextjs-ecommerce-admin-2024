@@ -20,19 +20,21 @@ const FormSchema = z.object({
   name: z.string().min(1),
 });
 
+type FormSchemaValues = z.infer<typeof FormSchema>;
+
 export const StoreModal = () => {
   const { isOpen, onOpen, onClose } = useStoreModal();
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof FormSchema>>({
+  const form = useForm<FormSchemaValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       name: '',
     }
   });
 
-  const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
+  const handleSubmit = async (values: FormSchemaValues) => {
     // console.log('handleSubmit', values);
 
     try {
@@ -45,11 +47,9 @@ export const StoreModal = () => {
       setTimeout(() => {
         onClose();
       }, 1000);
-
     } catch (error) {
       console.error('StoreModal', error);
       toast.error('Failed to create store.');
-
     } finally {
       setIsLoading(false);
     }

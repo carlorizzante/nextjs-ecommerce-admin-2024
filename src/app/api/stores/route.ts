@@ -30,7 +30,6 @@ export async function POST(
     });
 
     console.log('api/stores/route.ts > store', store);
-
     return NextResponse.json(store);
 
   } catch (error) {
