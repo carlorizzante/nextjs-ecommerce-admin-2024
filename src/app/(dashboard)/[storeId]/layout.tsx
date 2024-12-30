@@ -31,10 +31,12 @@ export default async function Layout({
   return (
     <div>
       <Navbar />
-      {/* <h1>Store: {store.name}</h1>
-      <h2>Store ID: {store.id}</h2>
-      <h2>User ID: {userId}</h2> */}
-      {children}
+      <div className="flex-1 gap-4 p-4">
+        {/* <h1>Store: {store.name}</h1> */}
+        {/* <h2>Store ID: {store.id}</h2> */}
+        {/* <h2>User ID: {userId}</h2> */}
+        {children}
+      </div>
     </div>
   );
 }

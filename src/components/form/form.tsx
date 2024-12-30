@@ -1,5 +1,4 @@
 import {
-  FieldPath,
   FieldValues,
   UseFormReturn,
 } from 'react-hook-form';
@@ -12,11 +11,11 @@ import {
 import { cn } from '@/lib/utils';
 
 type FormProps<
-  TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TFieldValues extends FieldValues,
+// TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 > = WithChildren & WithClassName & {
   /* eslint-disable-next-line */
-  form: UseFormReturn<{ name: TName; }, any, undefined>;
+  form: UseFormReturn<TFieldValues, any, undefined>;
   /* eslint-disable-next-line */
   onSubmit: (values: z.infer<any>) => void
   disabled?: boolean;
@@ -28,7 +27,7 @@ type FormProps<
   },
 };
 
-export const Form = ({
+export const Form = <TFieldValues extends FieldValues>({
   children,
   className,
   form,
@@ -36,7 +35,7 @@ export const Form = ({
   onSubmit,
   messages,
   ...props
-}: FormProps) => (
+}: FormProps<TFieldValues>) => (
   <ShadcnUIForm {...form} {...props}>
     <form
       onSubmit={form.handleSubmit(onSubmit)}

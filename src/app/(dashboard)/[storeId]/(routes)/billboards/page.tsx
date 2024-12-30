@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { StoreSettingsForm } from '@/components/forms/store-settings-form';
+import { BillboardClient } from '@/components/billboard-client';
 import prismadb from '@/lib/prismadb';
 import { WithParams } from '@/lib/types';
 import { auth } from '@clerk/nextjs/server';
@@ -25,10 +25,10 @@ export default async function SettingsPage({ params }: Readonly<WithParams>) {
 
   return (
     <>
-      {/* <h1>Settings Page</h1> */}
+      {/* <h1>Billboards Page</h1> */}
       {/* <p>{store?.name}</p> */}
       {/* <p>{store?.userId}</p> */}
-      <StoreSettingsForm store={store} />
+      <BillboardClient />
     </>
   )
 }

@@ -26,9 +26,23 @@ model User {
 }
 
 model Store {
+  id         String      @id @default(cuid())
+  name       String
+  userId     String      @map("user_id")
+  billboards Billboard[] @relation("StoreToBillboard")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+}
+
+model Billboard {
   id        String   @id @default(cuid())
   name      String
-  userId    String
+  storeId   String   @map("store_id")
+  imageUrl  String   @map("image_url")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  store Store @relation("StoreToBillboard", fields: [storeId], references: [id])
+
+  @@index([storeId])
 }

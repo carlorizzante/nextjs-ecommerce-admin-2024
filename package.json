@@ -10,7 +10,7 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch",
     "validate": "yarn type-check && yarn lint",
-    "OFF prisma:reset": "yarn prisma format && yarn prisma validate && yarn prisma migrate reset --skip-seed && yarn prisma generate && yarn prisma db push && yarn prisma db seed",
+    "OFF prisma:reset & seed": "yarn prisma format && yarn prisma validate && yarn prisma migrate reset --skip-seed && yarn prisma generate && yarn prisma db push && yarn prisma db seed",
     "prisma:reset": "yarn prisma format && yarn prisma validate && yarn prisma migrate reset --skip-seed && yarn prisma generate && yarn prisma db push",
     "prisma:seed": "yarn prisma db seed && yarn prisma db push",
     "update": "yarn upgrade-interactive --latest && yarn validate && echo 'TODO: Add Prisma to validation.'",
