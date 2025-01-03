@@ -11,17 +11,16 @@ export const ModalProvider = () => {
 
   useEffect(() => {
     setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
 
   if (!isMounted) {
     return null;
-
-  } else {
-    return (
-      <>
-        <StoreModal />
-      </>
-    );
   }
 
+  return (
+    <>
+      <StoreModal />
+    </>
+  );
 }

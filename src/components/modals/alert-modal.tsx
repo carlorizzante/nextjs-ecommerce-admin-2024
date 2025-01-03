@@ -24,6 +24,7 @@ export const AlertModal = ({
 
   useEffect(() => {
     setIsMounted(true);
+    return () => setIsMounted(false);
   }, []);
 
   if (!isMounted) {

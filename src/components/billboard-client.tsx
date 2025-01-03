@@ -21,7 +21,7 @@ export const BillboardClient = () => {
     <>
       <div className="flex justify-between items-center">
         <Heading
-          title="Some Billboard"
+          title="Billboards (...)"
           description="Manage your billboards here"
         />
         <Button onClick={handleAddBillboard}>

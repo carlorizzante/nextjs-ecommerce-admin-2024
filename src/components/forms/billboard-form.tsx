@@ -10,22 +10,22 @@ import {
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import * as z from 'zod';
-import { useOrigin } from '@/hooks';
+import { Form } from '@/components/form/form';
+import { FormCancel } from '@/components/form/form-cancel';
+import { FormInput } from '@/components/form/form-input';
+import { FormSubmit } from '@/components/form/form-submit';
+import { Heading } from '@/components/heading';
+import { AlertModal } from '@/components/modals/alert-modal';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Billboard } from '@prisma/client';
-import { Form } from '../form/form';
-import { FormCancel } from '../form/form-cancel';
-import { FormInput } from '../form/form-input';
-import { FormSubmit } from '../form/form-submit';
-import { Heading } from '../heading';
-import { AlertModal } from '../modals/alert-modal';
-import { Button } from '../ui/button';
-import { Separator } from '../ui/separator';
+import { FormImageUploader } from '../form/form-image-uploader';
 
 const FormSchema = z.object({
   name: z.string().min(1),
-  imageUrl: z.string().min(1),
+  imageUrl: z.string(),
 });
 
 type FormSchemaValues = z.infer<typeof FormSchema>;
@@ -38,14 +38,9 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Remove this as soon as open is used.
-  console.log(open);
-
   const params = useParams();
   const router = useRouter();
-  const origin = useOrigin();
-
-  console.log(params, router, origin);
+  // const origin = useOrigin();
 
   const disabled = isLoading;
   const title = billboard ? 'Edit Billboard' : 'Create Billboard';
@@ -65,17 +60,23 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
   const handleSubmit = async (values: FormSchemaValues) => {
     // console.log('StoreSettingsForm > handleSubmit', values);
     try {
+      let response;
       setIsLoading(true);
-      const response = await axios.patch(`/api/billboards/${billboard?.id}`, values);
+      if (billboard) {
+        response = await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, values);
+      } else {
+        response = await axios.post(`/api/${params.storeId}/billboards`, values);
+      }
       if (response.status === 200) {
         router.refresh();
+        router.push(`/${params.storeId}/billboards`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('StoreSettingsForm', error);
+      console.error('BillboardForm > handleSubmit', error);
       toast.error(errorMessage);
     }
     finally {
@@ -84,22 +85,24 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
   }
 
   const handleDelete = async () => {
-    // console.log('BillboardForm > handleDelete');
+    console.log('BillboardForm > handleDelete');
+    const successMessage = 'Billboard deleted!';
+    const errorMessage = 'Failed to delete billboard. Make sure to remove all categories used by this billboard before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');
-      const response = await axios.delete(`/api/billboards/${billboard?.id}`);
+      const response = await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       if (response.status === 200) {
         router.refresh();
         router.push('/');
-        toast.success('Billboard deleted!');
+        toast.success(successMessage);
       } else {
-        toast.error('Failed to delete billboard. Make sure to remove all products from billboard before deleting it.');
+        toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('BillboardForm', error);
-      toast.error('Failed to delete billboard. Make sure to remove all products from billboard before deleting it.');
+      console.error('BillboardForm > handleDelete', error);
+      toast.error(errorMessage);
     }
     finally {
       setIsLoading(false);
@@ -126,7 +129,7 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
             onClick={() => setOpen(true)}
           >
             <Trash />
-            Delete Store
+            Delete Billboard
           </Button>
         )}
       </div>
@@ -137,13 +140,20 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
         isLoading={isLoading}
         className={className}
       >
-        <div className="grid grid-cols-3 gap-8">
+        <div className="max-w-xl gap-8">
           <FormInput
             form={form}
             name="name"
             label="Billboard Name"
             disabled={disabled}
             placeholder='Billboard Name...'
+          />
+          <FormImageUploader
+            form={form}
+            name="imageUrl"
+            label="Billboard Image"
+            disabled={disabled}
+            description="Upload a billboard image."
           />
         </div>
         <div className="flex w-full justify-end items-center gap-2">

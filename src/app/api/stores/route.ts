@@ -11,11 +11,11 @@ export async function POST(
     const body = await req.json();
     const { name } = body;
 
-    console.log('api/stores/route.ts > userId', userId);
-    console.log('api/stores/route.ts > name', name);
+    // console.log('api/stores/route.ts > userId', userId);
+    // console.log('api/stores/route.ts > name', name);
 
     if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
+      return new NextResponse("Unauthenticated.", { status: 401 });
     }
 
     if (!name) {
@@ -29,7 +29,7 @@ export async function POST(
       },
     });
 
-    console.log('api/stores/route.ts > store', store);
+    // console.log('api/stores/route.ts > store', store);
     return NextResponse.json(store);
 
   } catch (error) {
