@@ -40,7 +40,6 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
 
   const params = useParams();
   const router = useRouter();
-  // const origin = useOrigin();
 
   const disabled = isLoading;
   const title = billboard ? 'Edit Billboard' : 'Create Billboard';
@@ -94,7 +93,7 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
       const response = await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
       if (response.status === 200) {
         router.refresh();
-        router.push('/');
+        router.push(`/${params.storeId}/billboards`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
@@ -161,7 +160,6 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>
       </Form>
-      <Separator className="my-4" />
     </>
   );
 }

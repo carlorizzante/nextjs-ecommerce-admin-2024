@@ -5,11 +5,21 @@ import {
   useParams,
   useRouter,
 } from 'next/navigation';
+import { DataTable } from '@/components/data-table';
 import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { WithClassName } from '@/lib/types';
+import {
+  BillboardColumn,
+  columns,
+} from './columns';
 
-export const BillboardClient = () => {
+type BillboardClientProps = WithClassName & {
+  billboards: BillboardColumn[];
+}
+
+export const BillboardClient = ({ billboards }: BillboardClientProps) => {
   const params = useParams();
   const router = useRouter();
 
@@ -17,11 +27,13 @@ export const BillboardClient = () => {
     router.push(`/${params.storeId}/billboards/new`);
   }
 
+  const billboardsCount = billboards.length;
+
   return (
     <>
       <div className="flex justify-between items-center">
         <Heading
-          title="Billboards (...)"
+          title={`Billboards (${billboardsCount})`}
           description="Manage your billboards here"
         />
         <Button onClick={handleAddBillboard}>
@@ -30,6 +42,7 @@ export const BillboardClient = () => {
         </Button>
       </div>
       <Separator className="my-4" />
+      <DataTable columns={columns} data={billboards} searchKey="name" />
     </>
   );
 }

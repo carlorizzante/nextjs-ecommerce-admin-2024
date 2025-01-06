@@ -17,7 +17,7 @@ export const MainNavigation = ({
   const routes = [
     {
       href: `/${params.storeId}`,
-      label: 'Dashboard',
+      label: 'Overview',
       active: pathname === `/${params.storeId}`,
     },
     {

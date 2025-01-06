@@ -17,10 +17,9 @@ export default async function BillboardPage({
 
   return (
     <>
-      <h1>BillboardPage</h1>
-      <p>Name: {billboard?.name || 'New?'}</p>
-      <p>storeId: {storeId}</p>
-      <p>billboardId: {billboardId}</p>
+      {/* <p>Name: {billboard?.name || 'New?'}</p> */}
+      {/* <p>storeId: {storeId}</p> */}
+      {/* <p>billboardId: {billboardId}</p> */}
       <BillboardForm billboard={billboard} />
     </>
   );
