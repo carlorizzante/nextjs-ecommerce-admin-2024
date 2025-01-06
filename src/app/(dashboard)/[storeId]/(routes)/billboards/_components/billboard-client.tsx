@@ -5,6 +5,7 @@ import {
   useParams,
   useRouter,
 } from 'next/navigation';
+import { ApiAlertList } from '@/components/api-alert-list';
 import { DataTable } from '@/components/data-table';
 import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
@@ -43,6 +44,13 @@ export const BillboardClient = ({ billboards }: BillboardClientProps) => {
       </div>
       <Separator className="my-4" />
       <DataTable columns={columns} data={billboards} searchKey="name" />
+      <Separator className="my-4" />
+      <Heading title="API" description="API calss for Billboards" />
+      <ApiAlertList
+        className="mt-4"
+        entityName="billboards"
+        entityIdName="billboardId"
+      />
     </>
   );
 }

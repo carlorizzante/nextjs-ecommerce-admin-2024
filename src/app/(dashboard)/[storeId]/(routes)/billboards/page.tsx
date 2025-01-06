@@ -3,7 +3,6 @@ import { redirect } from 'next/navigation';
 import {
   BillboardClient,
 } from '@/app/(dashboard)/[storeId]/(routes)/billboards/_components/billboard-client';
-import { Separator } from '@/components/ui/separator';
 import prismadb from '@/lib/prismadb';
 import { WithParams } from '@/lib/types';
 import { auth } from '@clerk/nextjs/server';
@@ -49,12 +48,6 @@ export default async function BillboardsPage({ params }: Readonly<WithParams>) {
       {/* <p>{store?.name}</p> */}
       {/* <p>{store?.userId}</p> */}
       <BillboardClient billboards={formattedBillboards} />
-      <Separator className="my-4" />
-      {billboards.map((billboard) => (
-        <div key={billboard.id}>
-          <p>{billboard.name}</p>
-        </div>
-      ))}
     </>
   )
 }
