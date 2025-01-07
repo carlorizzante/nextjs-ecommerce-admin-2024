@@ -32,8 +32,10 @@ export const CellAction = ({ data }: CellActionProps) => {
 
   const params = useParams();
   const router = useRouter();
+  console.log(data)
 
   const handleCopy = () => {
+    console.log(data.id)
     navigator.clipboard.writeText(data.id);
     toast.success('Category ID copied to clipboard!');
   }
@@ -45,7 +47,7 @@ export const CellAction = ({ data }: CellActionProps) => {
   const handleDelete = async () => {
     console.log('CategoryForm > handleDelete');
     const successMessage = 'Category deleted!';
-    const errorMessage = 'Failed to delete category. Make sure to remove all categories used by this category before deleting it.';
+    const errorMessage = 'Failed to delete category. Make sure to remove all products used by this category before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');

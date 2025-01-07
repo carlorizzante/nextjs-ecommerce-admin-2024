@@ -20,7 +20,12 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Category } from '@prisma/client';
+import {
+  Billboard,
+  Category,
+} from '@prisma/client';
+import { FormSelect } from '../form/form-select';
+import { FormSelectOption } from '../form/form-select-option';
 
 const FormSchema = z.object({
   name: z.string().min(1),
@@ -31,9 +36,10 @@ type FormSchemaValues = z.infer<typeof FormSchema>;
 
 type CategoryFormProps = WithClassName & {
   category: Category | null;
+  billboards: Billboard[];
 }
 
-export const CategoryForm = ({ className, category }: CategoryFormProps) => {
+export const CategoryForm = ({ className, category, billboards }: CategoryFormProps) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -85,7 +91,7 @@ export const CategoryForm = ({ className, category }: CategoryFormProps) => {
   const handleDelete = async () => {
     console.log('CategoryForm > handleDelete');
     const successMessage = 'Category deleted!';
-    const errorMessage = 'Failed to delete category. Make sure to remove all categories used by this category before deleting it.';
+    const errorMessage = 'Failed to delete category. Make sure to remove all products used by this category before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');
@@ -146,6 +152,19 @@ export const CategoryForm = ({ className, category }: CategoryFormProps) => {
             disabled={disabled}
             placeholder='Category Name...'
           />
+          <FormSelect
+            form={form}
+            name="billboardId"
+            label="Billboard"
+            disabled={disabled}
+            placeholder='Select a billboard...'
+          >
+            {billboards.map((billboard) => (
+              <FormSelectOption key={billboard.id} value={billboard.id}>
+                {billboard.name}
+              </FormSelectOption>
+            ))}
+          </FormSelect>
         </div>
         <div className="flex w-full justify-end items-center gap-2">
           <FormSubmit disabled={disabled}>{action}</FormSubmit>

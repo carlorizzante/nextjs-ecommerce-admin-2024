@@ -45,7 +45,7 @@ export const FormSelect = ({
         >
           <FormControl>
             <SelectTrigger className="pr-2 bg-white">
-              <SelectValue placeholder={placeholder}>{field.value}</SelectValue>
+              <SelectValue defaultValue={field.value} placeholder={placeholder} />
             </SelectTrigger>
           </FormControl>
           <SelectContent>

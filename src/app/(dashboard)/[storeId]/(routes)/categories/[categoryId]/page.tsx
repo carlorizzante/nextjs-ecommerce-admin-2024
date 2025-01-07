@@ -15,12 +15,18 @@ export default async function CategoryPage({
     }
   });
 
+  const billboards = await prismadb.billboard.findMany({
+    where: {
+      storeId
+    }
+  });
+
   return (
     <>
       <p>Name: {category?.name || 'New?'}</p>
       <p>storeId: {storeId}</p>
       <p>categoryId: {categoryId}</p>
-      <CategoryForm category={category} />
+      <CategoryForm category={category} billboards={billboards} />
     </>
   );
 }
