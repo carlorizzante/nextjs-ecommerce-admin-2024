@@ -12,44 +12,44 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import {
-  CategoryColumn,
   columns,
+  SizeColumn,
 } from './columns';
 
-type CategoryClientProps = WithClassName & {
-  categories: CategoryColumn[];
+type SizeClientProps = WithClassName & {
+  sizes: SizeColumn[];
 }
 
-export const CategoryClient = ({ categories }: CategoryClientProps) => {
+export const SizeClient = ({ sizes }: SizeClientProps) => {
   const params = useParams();
   const router = useRouter();
 
-  const handleAddCategory = () => {
-    router.push(`/${params.storeId}/categories/new`);
+  const handleAddSize = () => {
+    router.push(`/${params.storeId}/sizes/new`);
   }
 
-  const categoriesCount = categories.length;
+  const sizesCount = sizes.length;
 
   return (
     <>
       <div className="flex justify-between items-center">
         <Heading
-          title={`Categories (${categoriesCount})`}
-          description="Manage your categories here"
+          title={`Sizes (${sizesCount})`}
+          description="Manage your sizes here"
         />
-        <Button onClick={handleAddCategory}>
+        <Button onClick={handleAddSize}>
           <Plus className="w-r h-4" />
-          Add New Category
+          Add New Size
         </Button>
       </div>
       <Separator className="my-4" />
-      <DataTable columns={columns} data={categories} searchKey="name" />
+      <DataTable columns={columns} data={sizes} searchKey="name" />
       <Separator className="my-4" />
-      <Heading title="API" description="API calls for Categories" />
+      <Heading title="API" description="API calls for Sizes" />
       <ApiAlertList
         className="mt-4"
-        entityName="categories"
-        entityIdName="categoryId"
+        entityName="sizes"
+        entityIdName="sizeId"
       />
     </>
   );

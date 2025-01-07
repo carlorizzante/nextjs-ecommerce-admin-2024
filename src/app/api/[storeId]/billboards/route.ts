@@ -8,9 +8,7 @@ export async function POST(
 ) {
   try {
     const { userId } = await auth();
-    const body = await req.json();
-    const { name, imageUrl } = body;
-
+    const { name, imageUrl } = await req.json();
     const { storeId } = await params;
 
     if (!userId) {

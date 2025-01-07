@@ -4,12 +4,12 @@ import { auth } from '@clerk/nextjs/server';
 
 export async function PATCH(
   req: Request,
-  { params }: { params: Promise<{ storeId: string; billboardId: string; }> },
+  { params }: { params: Promise<{ storeId: string; sizeId: string; }> },
 ) {
   try {
     const { userId } = await auth();
-    const { name, imageUrl } = await req.json();
-    const { storeId, billboardId } = await params;
+    const { name, value } = await req.json();
+    const { storeId, sizeId } = await params;
 
     if (!userId) {
       return new NextResponse("Unauthenticated.", { status: 401 });
@@ -23,8 +23,8 @@ export async function PATCH(
       return new NextResponse("Bad Request, name is required", { status: 400 });
     }
 
-    if (!imageUrl) {
-      return new NextResponse("Bad Request, imageUrl is required", { status: 400 });
+    if (!value) {
+      return new NextResponse("Bad Request, value is required", { status: 400 });
     }
 
     const isStoreOwner = await prismadb.store.findFirst({
@@ -38,52 +38,52 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const billboard = await prismadb.billboard.update({
-      where: { id: billboardId },
+    const size = await prismadb.size.update({
+      where: { id: sizeId },
       data: {
         name,
-        imageUrl,
+        value,
       }
     });
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(size);
 
   } catch (error) {
-    console.error('api/[storeId]/billboards/[billboardId]/route.ts', error);
+    console.error('api/[storeId]/sizes/[sizeId]/route.ts', error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ billboardId: string }> },
+  { params }: { params: Promise<{ sizeId: string }> },
 ) {
   try {
-    const { billboardId } = await params;
+    const { sizeId } = await params;
 
-    if (!billboardId) {
-      return new NextResponse("Bad Request, billboardId is required", { status: 400 });
+    if (!sizeId) {
+      return new NextResponse("Bad Request, sizeId is required", { status: 400 });
     }
 
-    const billboard = await prismadb.billboard.findUnique({
-      where: { id: billboardId },
+    const size = await prismadb.size.findUnique({
+      where: { id: sizeId },
     });
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(size);
 
   } catch (error) {
-    console.error('api/[storeId]/billboards/[billboardId]/route.ts', error);
+    console.error('api/[storeId]/sizes/[sizeId]/route.ts', error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ storeId: string; billboardId: string; }> },
+  { params }: { params: Promise<{ storeId: string; sizeId: string; }> },
 ) {
   try {
     const { userId } = await auth();
-    const { storeId, billboardId } = await params;
+    const { storeId, sizeId } = await params;
 
     if (!userId) {
       return new NextResponse("Unauthenticated.", { status: 401 });
@@ -93,8 +93,8 @@ export async function DELETE(
       return new NextResponse("Bad Request, storeId is required", { status: 400 });
     }
 
-    if (!billboardId) {
-      return new NextResponse("Bad Request, billboardId is required", { status: 400 });
+    if (!sizeId) {
+      return new NextResponse("Bad Request, sizeId is required", { status: 400 });
     }
 
     const isStoreOwner = await prismadb.store.findFirst({
@@ -108,14 +108,14 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const billboard = await prismadb.billboard.delete({
-      where: { id: billboardId },
+    const size = await prismadb.size.delete({
+      where: { id: sizeId },
     });
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(size);
 
   } catch (error) {
-    console.error('api/[storeId]/billboards/[billboardId]/route.ts', error);
+    console.error('api/[storeId]/sizes/[sizeId]/route.ts', error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

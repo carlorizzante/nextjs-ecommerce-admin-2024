@@ -8,8 +8,7 @@ export async function POST(
 ) {
   try {
     const { userId } = await auth();
-    const body = await req.json();
-    const { name } = body;
+    const { name } = await req.json();
 
     // console.log('api/stores/route.ts > userId', userId);
     // console.log('api/stores/route.ts > name', name);

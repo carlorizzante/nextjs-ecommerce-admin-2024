@@ -13,8 +13,6 @@ import * as z from 'zod';
 import { Form } from '@/components/form/form';
 import { FormCancel } from '@/components/form/form-cancel';
 import { FormInput } from '@/components/form/form-input';
-import { FormSelect } from '@/components/form/form-select';
-import { FormSelectOption } from '@/components/form/form-select-option';
 import { FormSubmit } from '@/components/form/form-submit';
 import { Heading } from '@/components/heading';
 import { AlertModal } from '@/components/modals/alert-modal';
@@ -22,24 +20,20 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Billboard,
-  Category,
-} from '@prisma/client';
+import { Size } from '@prisma/client';
 
 const FormSchema = z.object({
   name: z.string().min(1),
-  billboardId: z.string(),
+  value: z.string(),
 });
 
 type FormSchemaValues = z.infer<typeof FormSchema>;
 
-type CategoryFormProps = WithClassName & {
-  category: Category | null;
-  billboards: Billboard[];
+type SizeFormProps = WithClassName & {
+  size: Size | null;
 }
 
-export const CategoryForm = ({ className, category, billboards }: CategoryFormProps) => {
+export const SizeForm = ({ className, size }: SizeFormProps) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -47,17 +41,17 @@ export const CategoryForm = ({ className, category, billboards }: CategoryFormPr
   const router = useRouter();
 
   const disabled = isLoading;
-  const title = category ? 'Edit Category' : 'Create Category';
-  const description = category ? 'Update your category settings.' : 'Create a new category.';
-  const successMessage = category ? 'Category updated!' : 'Category created!';
-  const errorMessage = category ? 'Failed to update category.' : 'Failed to create category.';
-  const action = category ? 'Save Changes' : 'Create Category';
+  const title = size ? 'Edit Size' : 'Create Size';
+  const description = size ? 'Update your size settings.' : 'Create a new size.';
+  const successMessage = size ? 'Size updated!' : 'Size created!';
+  const errorMessage = size ? 'Failed to update size.' : 'Failed to create size.';
+  const action = size ? 'Save Changes' : 'Create Size';
 
   const form = useForm<FormSchemaValues>({
     resolver: zodResolver(FormSchema),
-    defaultValues: category || {
+    defaultValues: size || {
       name: '',
-      billboardId: '',
+      value: '',
     }
   });
 
@@ -66,21 +60,21 @@ export const CategoryForm = ({ className, category, billboards }: CategoryFormPr
     try {
       let response;
       setIsLoading(true);
-      if (category) {
-        response = await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, values);
+      if (size) {
+        response = await axios.patch(`/api/${params.storeId}/sizes/${params.sizeId}`, values);
       } else {
-        response = await axios.post(`/api/${params.storeId}/categories`, values);
+        response = await axios.post(`/api/${params.storeId}/sizes`, values);
       }
       if (response.status === 200) {
         router.refresh();
-        router.push(`/${params.storeId}/categories`);
+        router.push(`/${params.storeId}/sizes`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('CategoryForm > handleSubmit', error);
+      console.error('SizeForm > handleSubmit', error);
       toast.error(errorMessage);
     }
     finally {
@@ -89,23 +83,23 @@ export const CategoryForm = ({ className, category, billboards }: CategoryFormPr
   }
 
   const handleDelete = async () => {
-    console.log('CategoryForm > handleDelete');
-    const successMessage = 'Category deleted!';
-    const errorMessage = 'Failed to delete category. Make sure to remove all products used by this category before deleting it.';
+    console.log('SizeForm > handleDelete');
+    const successMessage = 'Size deleted!';
+    const errorMessage = 'Failed to delete size. Make sure to remove all products used by this size before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');
-      const response = await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
+      const response = await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
       if (response.status === 200) {
         router.refresh();
-        router.push(`/${params.storeId}/categories`);
+        router.push(`/${params.storeId}/sizes`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('CategoryForm > handleDelete', error);
+      console.error('SizeForm > handleDelete', error);
       toast.error(errorMessage);
     }
     finally {
@@ -126,14 +120,14 @@ export const CategoryForm = ({ className, category, billboards }: CategoryFormPr
           title={title}
           description={description}
         />
-        {category && (
+        {size && (
           <Button
             variant="destructive"
             size="sm"
             onClick={() => setOpen(true)}
           >
             <Trash />
-            Delete Category
+            Delete Size
           </Button>
         )}
       </div>
@@ -148,23 +142,17 @@ export const CategoryForm = ({ className, category, billboards }: CategoryFormPr
           <FormInput
             form={form}
             name="name"
-            label="Category Name"
+            label="Size Name"
             disabled={disabled}
-            placeholder='Category Name...'
+            placeholder='Size Name...'
           />
-          <FormSelect
+          <FormInput
             form={form}
-            name="billboardId"
-            label="Billboard"
+            name="value"
+            label="Size Value"
             disabled={disabled}
-            placeholder='Select a billboard...'
-          >
-            {billboards.map((billboard) => (
-              <FormSelectOption key={billboard.id} value={billboard.id}>
-                {billboard.name}
-              </FormSelectOption>
-            ))}
-          </FormSelect>
+            placeholder='Size Value...'
+          />
         </div>
         <div className="flex w-full justify-end items-center gap-2">
           <FormSubmit disabled={disabled}>{action}</FormSubmit>

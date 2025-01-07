@@ -8,9 +8,7 @@ export async function PATCH(
 ) {
   try {
     const { userId } = await auth();
-    const body = await req.json();
-    const { name, billboardId } = body;
-
+    const { name, billboardId } = await req.json();
     const { storeId, categoryId } = await params;
 
     if (!userId) {
