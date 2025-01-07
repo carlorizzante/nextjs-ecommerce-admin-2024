@@ -12,44 +12,44 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import {
-  BillboardColumn,
+  CategoryColumn,
   columns,
 } from './columns';
 
-type BillboardClientProps = WithClassName & {
-  billboards: BillboardColumn[];
+type CategoryClientProps = WithClassName & {
+  categories: CategoryColumn[];
 }
 
-export const BillboardClient = ({ billboards }: BillboardClientProps) => {
+export const CategoryClient = ({ categories }: CategoryClientProps) => {
   const params = useParams();
   const router = useRouter();
 
-  const handleAddBillboard = () => {
-    router.push(`/${params.storeId}/billboards/new`);
+  const handleAddCategory = () => {
+    router.push(`/${params.storeId}/categories/new`);
   }
 
-  const billboardsCount = billboards.length;
+  const categoriesCount = categories.length;
 
   return (
     <>
       <div className="flex justify-between items-center">
         <Heading
-          title={`Billboards (${billboardsCount})`}
-          description="Manage your billboards here"
+          title={`Categorys (${categoriesCount})`}
+          description="Manage your categories here"
         />
-        <Button onClick={handleAddBillboard}>
+        <Button onClick={handleAddCategory}>
           <Plus className="w-r h-4" />
-          Add New Billboard
+          Add New Category
         </Button>
       </div>
       <Separator className="my-4" />
-      <DataTable columns={columns} data={billboards} searchKey="name" />
+      <DataTable columns={columns} data={categories} searchKey="name" />
       <Separator className="my-4" />
-      <Heading title="API" description="API calls for Billboards" />
+      <Heading title="API" description="API calls for Categories" />
       <ApiAlertList
         className="mt-4"
-        entityName="billboards"
-        entityIdName="billboardId"
+        entityName="categories"
+        entityIdName="categoryId"
       />
     </>
   );

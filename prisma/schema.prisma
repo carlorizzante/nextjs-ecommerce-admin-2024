@@ -30,19 +30,36 @@ model Store {
   name       String
   userId     String      @map("user_id")
   billboards Billboard[] @relation("StoreToBillboard")
+  categories Category[]  @relation("StoreToCategory")
   createdAt  DateTime    @default(now()) @map("created_at")
   updatedAt  DateTime    @updatedAt @map("updated_at")
 }
 
 model Billboard {
-  id        String   @id @default(cuid())
-  name      String
-  storeId   String   @map("store_id")
-  imageUrl  String   @map("image_url")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id         String     @id @default(cuid())
+  name       String
+  storeId    String     @map("store_id")
+  imageUrl   String     @map("image_url")
+  categories Category[] @relation("BillboardToCategory")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
 
   store Store @relation("StoreToBillboard", fields: [storeId], references: [id])
 
   @@index([storeId])
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  storeId     String   @map("store_id")
+  billboardId String   @map("billboard_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  store     Store     @relation("StoreToCategory", fields: [storeId], references: [id])
+  billboard Billboard @relation("BillboardToCategory", fields: [billboardId], references: [id])
+
+  @@index([storeId])
+  @@index([billboardId])
 }

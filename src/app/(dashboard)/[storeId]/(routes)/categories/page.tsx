@@ -3,10 +3,10 @@ import { redirect } from 'next/navigation';
 import prismadb from '@/lib/prismadb';
 import { WithParams } from '@/lib/types';
 import { auth } from '@clerk/nextjs/server';
-import { BillboardClient } from './_components/billboard-client';
-import { BillboardColumn } from './_components/columns';
+import { CategoryClient } from './_components/category-client';
+import { CategoryColumn } from './_components/columns';
 
-export default async function BillboardsPage({ params }: Readonly<WithParams>) {
+export default async function CategoriesPage({ params }: Readonly<WithParams>) {
   const { storeId } = await params;
   const { userId } = await auth();
 
@@ -25,27 +25,31 @@ export default async function BillboardsPage({ params }: Readonly<WithParams>) {
     redirect('/');
   }
 
-  const billboards = await prismadb.billboard.findMany({
+  const categories = await prismadb.category.findMany({
     where: {
       storeId
+    },
+    include: {
+      billboard: true
     },
     orderBy: {
       createdAt: 'desc'
     }
   });
 
-  const formattedBillboards: BillboardColumn[] = billboards.map((billboard) => ({
-    id: billboard.id,
-    name: billboard.name,
-    createdAt: format(billboard.createdAt, 'MMMM do, yyyy'),
+  const formattedCategories: CategoryColumn[] = categories.map((category) => ({
+    id: category.id,
+    name: category.name,
+    billboardName: category.billboard.name,
+    createdAt: format(category.createdAt, 'MMMM do, yyyy'),
   }));
 
   return (
     <>
-      {/* <h1>Billboards Page</h1> */}
+      {/* <h1>Categories Page</h1> */}
       {/* <p>{store?.name}</p> */}
       {/* <p>{store?.userId}</p> */}
-      <BillboardClient billboards={formattedBillboards} />
+      <CategoryClient categories={formattedCategories} />
     </>
   )
 }

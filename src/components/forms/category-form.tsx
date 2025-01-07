@@ -12,7 +12,6 @@ import toast from 'react-hot-toast';
 import * as z from 'zod';
 import { Form } from '@/components/form/form';
 import { FormCancel } from '@/components/form/form-cancel';
-import { FormImageUploader } from '@/components/form/form-image-uploader';
 import { FormInput } from '@/components/form/form-input';
 import { FormSubmit } from '@/components/form/form-submit';
 import { Heading } from '@/components/heading';
@@ -21,20 +20,20 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { WithClassName } from '@/lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Billboard } from '@prisma/client';
+import { Category } from '@prisma/client';
 
 const FormSchema = z.object({
   name: z.string().min(1),
-  imageUrl: z.string(),
+  billboardId: z.string(),
 });
 
 type FormSchemaValues = z.infer<typeof FormSchema>;
 
-type BillboardFormProps = WithClassName & {
-  billboard: Billboard | null;
+type CategoryFormProps = WithClassName & {
+  category: Category | null;
 }
 
-export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
+export const CategoryForm = ({ className, category }: CategoryFormProps) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,17 +41,17 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
   const router = useRouter();
 
   const disabled = isLoading;
-  const title = billboard ? 'Edit Billboard' : 'Create Billboard';
-  const description = billboard ? 'Update your billboard settings.' : 'Create a new billboard.';
-  const successMessage = billboard ? 'Billboard updated!' : 'Billboard created!';
-  const errorMessage = billboard ? 'Failed to update billboard.' : 'Failed to create billboard.';
-  const action = billboard ? 'Save Changes' : 'Create Billboard';
+  const title = category ? 'Edit Category' : 'Create Category';
+  const description = category ? 'Update your category settings.' : 'Create a new category.';
+  const successMessage = category ? 'Category updated!' : 'Category created!';
+  const errorMessage = category ? 'Failed to update category.' : 'Failed to create category.';
+  const action = category ? 'Save Changes' : 'Create Category';
 
   const form = useForm<FormSchemaValues>({
     resolver: zodResolver(FormSchema),
-    defaultValues: billboard || {
+    defaultValues: category || {
       name: '',
-      imageUrl: '',
+      billboardId: '',
     }
   });
 
@@ -61,21 +60,21 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
     try {
       let response;
       setIsLoading(true);
-      if (billboard) {
-        response = await axios.patch(`/api/${params.storeId}/billboards/${params.billboardId}`, values);
+      if (category) {
+        response = await axios.patch(`/api/${params.storeId}/categories/${params.categoryId}`, values);
       } else {
-        response = await axios.post(`/api/${params.storeId}/billboards`, values);
+        response = await axios.post(`/api/${params.storeId}/categories`, values);
       }
       if (response.status === 200) {
         router.refresh();
-        router.push(`/${params.storeId}/billboards`);
+        router.push(`/${params.storeId}/categories`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('BillboardForm > handleSubmit', error);
+      console.error('CategoryForm > handleSubmit', error);
       toast.error(errorMessage);
     }
     finally {
@@ -84,23 +83,23 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
   }
 
   const handleDelete = async () => {
-    console.log('BillboardForm > handleDelete');
-    const successMessage = 'Billboard deleted!';
-    const errorMessage = 'Failed to delete billboard. Make sure to remove all categories used by this billboard before deleting it.';
+    console.log('CategoryForm > handleDelete');
+    const successMessage = 'Category deleted!';
+    const errorMessage = 'Failed to delete category. Make sure to remove all categories used by this category before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');
-      const response = await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`);
+      const response = await axios.delete(`/api/${params.storeId}/categories/${params.categoryId}`);
       if (response.status === 200) {
         router.refresh();
-        router.push(`/${params.storeId}/billboards`);
+        router.push(`/${params.storeId}/categories`);
         toast.success(successMessage);
       } else {
         toast.error(errorMessage);
       }
     }
     catch (error) {
-      console.error('BillboardForm > handleDelete', error);
+      console.error('CategoryForm > handleDelete', error);
       toast.error(errorMessage);
     }
     finally {
@@ -121,14 +120,14 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
           title={title}
           description={description}
         />
-        {billboard && (
+        {category && (
           <Button
             variant="destructive"
             size="sm"
             onClick={() => setOpen(true)}
           >
             <Trash />
-            Delete Billboard
+            Delete Category
           </Button>
         )}
       </div>
@@ -143,16 +142,9 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
           <FormInput
             form={form}
             name="name"
-            label="Billboard Name"
+            label="Category Name"
             disabled={disabled}
-            placeholder='Billboard Name...'
-          />
-          <FormImageUploader
-            form={form}
-            name="imageUrl"
-            label="Billboard Image"
-            disabled={disabled}
-            description="Upload a billboard image."
+            placeholder='Category Name...'
           />
         </div>
         <div className="flex w-full justify-end items-center gap-2">
