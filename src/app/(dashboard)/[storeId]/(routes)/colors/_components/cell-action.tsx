@@ -20,10 +20,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { BillboardColumn } from './columns';
+import { ColorColumn } from './columns';
 
 type CellActionProps = {
-  data: BillboardColumn;
+  data: ColorColumn;
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
@@ -32,24 +32,26 @@ export const CellAction = ({ data }: CellActionProps) => {
 
   const params = useParams();
   const router = useRouter();
+  console.log(data)
 
   const handleCopy = () => {
+    console.log(data.id)
     navigator.clipboard.writeText(data.id);
-    toast.success('Billboard ID copied to clipboard!');
+    toast.success('Color ID copied to clipboard!');
   }
 
   const handleEdit = () => {
-    router.push(`/${params.storeId}/billboards/${data.id}`);
+    router.push(`/${params.storeId}/colors/${data.id}`);
   }
 
   const handleDelete = async () => {
-    console.log('BillboardForm > handleDelete');
-    const successMessage = 'Billboard deleted!';
-    const errorMessage = 'Failed to delete billboard. Make sure to remove all categories used by this billboard before deleting it.';
+    console.log('ColorForm > handleDelete');
+    const successMessage = 'Color deleted!';
+    const errorMessage = 'Failed to delete color. Make sure to remove all products used by this color before deleting it.';
     try {
       setIsLoading(true);
       // throw new Error('Not implemented');
-      const response = await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+      const response = await axios.delete(`/api/${params.storeId}/colors/${data.id}`);
       if (response.status === 200) {
         router.refresh();
         toast.success(successMessage);
@@ -58,7 +60,7 @@ export const CellAction = ({ data }: CellActionProps) => {
       }
     }
     catch (error) {
-      console.error('BillboardForm > handleDelete', error);
+      console.error('ColorForm > handleDelete', error);
       toast.error(errorMessage);
     }
     finally {
@@ -77,7 +79,7 @@ export const CellAction = ({ data }: CellActionProps) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" color="icon">
             <span className="sr-only">Open Menu</span>
             <MoreHorizontal />
           </Button>

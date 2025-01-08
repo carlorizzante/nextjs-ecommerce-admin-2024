@@ -64,6 +64,7 @@ export const CellAction = ({ data }: CellActionProps) => {
       toast.error(errorMessage);
     }
     finally {
+      setOpen(false);
       setIsLoading(false);
     }
   }
