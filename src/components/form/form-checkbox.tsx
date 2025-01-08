@@ -34,7 +34,7 @@ export const FormCheckbox = ({
     control={form.control}
     name={name}
     render={({ field }) => (
-      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow bg-slate-900 text-white">
+      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
         <FormControl>
           <Checkbox
             {...field}
@@ -43,7 +43,7 @@ export const FormCheckbox = ({
             checked={field.value}
             onCheckedChange={field.onChange}
             className={cn(
-              'invert',
+              // 'invert',
               className
             )}
             {...props}

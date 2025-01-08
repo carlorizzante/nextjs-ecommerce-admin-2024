@@ -136,7 +136,7 @@ export const StoreSettingsForm = ({ className, store }: StoreSettingsFormProps) 
             placeholder='Store Name...'
           />
         </div>
-        <div className="flex w-full justify-end items-center gap-2">
+        <div className="flex w-full items-center gap-2">
           <FormSubmit disabled={disabled}>Save Changes</FormSubmit>
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>

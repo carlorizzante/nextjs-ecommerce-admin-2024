@@ -140,29 +140,27 @@ export const ColorForm = ({ className, color }: ColorFormProps) => {
         isLoading={isLoading}
         className={className}
       >
-        <div className="max-w-xl gap-8">
+        <FormInput
+          form={form}
+          name="name"
+          label="Color Name"
+          disabled={disabled}
+          placeholder='Color Name...'
+        />
+        <div className="flex items-center gap-2">
           <FormInput
             form={form}
-            name="name"
-            label="Color Name"
+            name="value"
+            label="Color Value"
             disabled={disabled}
-            placeholder='Color Name...'
+            placeholder='Color Value...'
           />
-          <div className="flex items-center gap-2">
-            <FormInput
-              form={form}
-              name="value"
-              label="Color Value"
-              disabled={disabled}
-              placeholder='Color Value...'
-            />
-            <div
-              className="w-6 h-6 mt-8 rounded-full border"
-              style={{ backgroundColor: form.watch('value') }}
-            />
-          </div>
+          <div
+            className="w-6 h-6 mt-8 rounded-full border"
+            style={{ backgroundColor: form.watch('value') }}
+          />
         </div>
-        <div className="flex w-full justify-end items-center gap-2">
+        <div className="flex w-full items-center gap-2">
           <FormSubmit disabled={disabled}>{action}</FormSubmit>
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>

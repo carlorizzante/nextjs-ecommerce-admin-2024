@@ -58,8 +58,8 @@ export const ImageUploader = ({
   }
 
   console.log('ImageUploader > value', value);
-  console.log('ImageUploader > typeof value', typeof value);
-  console.log('ImageUploader > value.length', value.length);
+  // console.log('ImageUploader > typeof value', typeof value);
+  // console.log('ImageUploader > value.length', value.length);
 
   return (
     <>
@@ -88,7 +88,11 @@ export const ImageUploader = ({
           </div>
         ) : null)}
       </div>
-      <CldUploadWidget onSuccess={handleUpload as CldUploadWidgetProps['onSuccess']} uploadPreset="next-ecommerce-2024">
+      <CldUploadWidget
+        // onUploadAdded={handleUpload as CldUploadWidgetProps['onUploadAdded']}
+        onSuccess={handleUpload as CldUploadWidgetProps['onSuccess']}
+        uploadPreset="next-ecommerce-2024"
+      >
         {({ open }) => {
           const onClick = () => {
             open();
@@ -99,7 +103,7 @@ export const ImageUploader = ({
               onClick={onClick}
               disabled={disabled}>
               <ImagePlus className="w-4 h-4" />
-              Upload an Image
+              Upload Image(s)
             </Button>
           )
         }}

@@ -138,23 +138,21 @@ export const SizeForm = ({ className, size }: SizeFormProps) => {
         isLoading={isLoading}
         className={className}
       >
-        <div className="max-w-xl gap-8">
-          <FormInput
-            form={form}
-            name="name"
-            label="Size Name"
-            disabled={disabled}
-            placeholder='Size Name...'
-          />
-          <FormInput
-            form={form}
-            name="value"
-            label="Size Value"
-            disabled={disabled}
-            placeholder='Size Value...'
-          />
-        </div>
-        <div className="flex w-full justify-end items-center gap-2">
+        <FormInput
+          form={form}
+          name="name"
+          label="Size Name"
+          disabled={disabled}
+          placeholder='Size Name...'
+        />
+        <FormInput
+          form={form}
+          name="value"
+          label="Size Value"
+          disabled={disabled}
+          placeholder='Size Value...'
+        />
+        <div className="flex w-full items-center gap-2">
           <FormSubmit disabled={disabled}>{action}</FormSubmit>
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>

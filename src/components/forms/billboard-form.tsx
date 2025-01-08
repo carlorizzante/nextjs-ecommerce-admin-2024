@@ -139,23 +139,21 @@ export const BillboardForm = ({ className, billboard }: BillboardFormProps) => {
         isLoading={isLoading}
         className={className}
       >
-        <div className="max-w-xl gap-8">
-          <FormInput
-            form={form}
-            name="name"
-            label="Billboard Name"
-            disabled={disabled}
-            placeholder='Billboard Name...'
-          />
-          <FormImageUploader
-            form={form}
-            name="imageUrl"
-            label="Billboard Image"
-            disabled={disabled}
-            description="Upload a billboard image."
-          />
-        </div>
-        <div className="flex w-full justify-end items-center gap-2">
+        <FormInput
+          form={form}
+          name="name"
+          label="Billboard Name"
+          disabled={disabled}
+          placeholder='Billboard Name...'
+        />
+        <FormImageUploader
+          form={form}
+          name="imageUrl"
+          label="Billboard Image"
+          disabled={disabled}
+          description="Upload a billboard image."
+        />
+        <div className="flex w-full items-center gap-2">
           <FormSubmit disabled={disabled}>{action}</FormSubmit>
           <FormCancel onClick={() => null} disabled={disabled}>Cancel</FormCancel>
         </div>

@@ -38,7 +38,7 @@ export const FormInput = <TFieldValues extends FieldValues>({
     name={props.name}
     render={({ field }) => (
       <FormItem>
-        {(label && props.type !== 'hidden') && <FormLabel>{label}</FormLabel>}
+        {(label && props.type !== 'hidden') && <FormLabel className="font-semibold">{label}</FormLabel>}
         <FormControl>
           <Input
             {...field}

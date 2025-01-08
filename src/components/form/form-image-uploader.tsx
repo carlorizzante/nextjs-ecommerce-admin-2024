@@ -38,14 +38,14 @@ export const FormImageUploader = <TFieldValues extends FieldValues>({
     name={props.name}
     render={({ field }) => (
       <FormItem>
-        {(label && props.type !== 'hidden') && <FormLabel>{label}</FormLabel>}
+        {(label && props.type !== 'hidden') && <FormLabel className="font-semibold">{label}</FormLabel>}
         <FormControl>
           <ImageUploader
             {...field}
             disabled={disabled}
             onChange={(url) => field.onChange(url)}
             onRemove={() => field.onChange('')}
-            value={[field.value]}
+            value={Array.isArray(field.value) ? field.value : [field.value]}
             className={cn('bg-white', className)}
 
           />
