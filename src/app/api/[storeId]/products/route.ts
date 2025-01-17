@@ -86,13 +86,16 @@ export async function GET(
       return new NextResponse("Bad Request, storeId is required", { status: 400 });
     }
 
+    console.log('params', { storeId, categoryId, colorId, sizeId, isFeatured });
+    console.log('isFeatured', isFeatured);
+
     const products = await prismadb.product.findMany({
       where: {
         storeId,
         categoryId,
         colorId,
         sizeId,
-        isFeatured: isFeatured ? true : undefined,
+        isFeatured: !!isFeatured ? true : undefined,
         isArchived: false,
       },
       include: {
