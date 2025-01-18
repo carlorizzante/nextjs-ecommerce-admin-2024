@@ -1,4 +1,7 @@
-import { NextResponse } from 'next/server';
+import {
+  NextRequest,
+  NextResponse,
+} from 'next/server';
 import prismadb from '@/lib/prismadb';
 import { auth } from '@clerk/nextjs/server';
 
@@ -71,7 +74,7 @@ export async function POST(
 }
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: Promise<{ storeId: string }> },
 ) {
   try {
@@ -87,7 +90,7 @@ export async function GET(
     }
 
     console.log('params', { storeId, categoryId, colorId, sizeId, isFeatured });
-    console.log('isFeatured', isFeatured);
+    console.log('searchParams', searchParams.has('categoryId'), searchParams.has('colorId'), searchParams.has('sizeId'), searchParams.has('isFeatured'));
 
     const products = await prismadb.product.findMany({
       where: {

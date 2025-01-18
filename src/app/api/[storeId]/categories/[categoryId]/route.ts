@@ -65,8 +65,11 @@ export async function GET(
       return new NextResponse("Bad Request, categoryId is required", { status: 400 });
     }
 
-    const category = await prismadb.billboard.findUnique({
+    const category = await prismadb.category.findUnique({
       where: { id: categoryId },
+      include: {
+        billboard: true,
+      },
     });
 
     return NextResponse.json(category);
