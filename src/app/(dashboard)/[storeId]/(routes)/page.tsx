@@ -27,7 +27,7 @@ export default async function DashboardPage({ params }: WithParams) {
   const productsInStock = await getStockCountAction(storeId);
   const graphData = await getGraphRevenueAction(storeId);
 
-  console.log(graphData);
+  // console.log(graphData);
 
   return (
     <div className="flex-col">
